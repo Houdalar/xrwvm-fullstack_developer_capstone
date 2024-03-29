@@ -13,6 +13,19 @@ img{
   margin-bottom: 1%;
 }
 
+.contact-us-card{
+    border: rgb(103, 102, 105) 1px solid;
+    display: flex;  
+    flex-direction: column;
+    justify-items: center;
+    margin-left:5%;
+    margin-right:5%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 1px 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
 .row{
   display: flex;  
   flex: 1;
@@ -123,4 +136,21 @@ img{
     border-radius:50px;
     text-align:center;
     box-shadow: 2px 2px 3px #999;  
+}
+
+.contact-us-details{
+    font-size: 15px;
+    color: rgb(80, 139, 198);
+    text-align: center;
+    line-height:0.5;
+    
+}
+
+.bold{
+    font-weight: bold;
+}
+
+.vertical-line {
+    border-left: 3px solid rgb(103, 102, 105);
+    height:300px;
 }
