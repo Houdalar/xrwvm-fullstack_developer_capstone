@@ -94,9 +94,6 @@ def get_dealerships(request, state="All"):
     dealerships = get_request(endpoint)
     return JsonResponse({"status":200,"dealers":dealerships})
 
-# Create a `get_dealer_reviews` view to render the reviews of a dealer
-# def get_dealer_reviews(request,dealer_id):
-# ...
 
 def get_dealer_details(request, dealer_id):
     if dealer_id:
@@ -107,14 +104,26 @@ def get_dealer_details(request, dealer_id):
         return JsonResponse({"status": 400, "message": "Bad Request"})
 
 
+
 def get_dealer_reviews(request, dealer_id):
     if dealer_id:
         endpoint = f"/fetchReviews/dealer/{dealer_id}"
         reviews = get_request(endpoint)
+
+        if not reviews:
+            logger.error(f"No reviews found for dealer: {dealer_id}")
+            return JsonResponse({"status": 200, "reviews": []})
+
         for review_detail in reviews:
-            # Assuming analyze_review_sentiments returns a dictionary with a 'sentiment' key
-            response = analyze_review_sentiments(review_detail['review'])
-            review_detail['sentiment'] = response['sentiment']
+            try:
+                # Assuming analyze_review_sentiments returns a dictionary with a 'sentiment' key
+                response = analyze_review_sentiments(review_detail['review'])
+                review_detail['sentiment'] = response['sentiment']
+            except Exception as e:
+                logger.error(f"Error analyzing sentiment for review: {review_detail}. Error: {e}")
+                # Decide how to handle individual review sentiment analysis failure
+                review_detail['sentiment'] = "unknown"
+        
         return JsonResponse({"status": 200, "reviews": reviews})
     else:
         return JsonResponse({"status": 400, "message": "Bad Request"})
