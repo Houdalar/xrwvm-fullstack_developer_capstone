@@ -96,37 +96,27 @@ def get_dealerships(request, state="All"):
 
 
 def get_dealer_details(request, dealer_id):
-    if dealer_id:
-        endpoint = f"/fetchDealer/{dealer_id}"
+    if(dealer_id):
+        endpoint = "/fetchDealer/"+str(dealer_id)
         dealership = get_request(endpoint)
-        return JsonResponse({"status": 200, "dealer": dealership})
+        return JsonResponse({"status":200,"dealer":dealership})
     else:
-        return JsonResponse({"status": 400, "message": "Bad Request"})
+        return JsonResponse({"status":400,"message":"Bad Request"})
 
 
 
 def get_dealer_reviews(request, dealer_id):
-    if dealer_id:
-        endpoint = f"/fetchReviews/dealer/{dealer_id}"
+    # if dealer id has been provided
+    if(dealer_id):
+        endpoint = "/fetchReviews/dealer/"+str(dealer_id)
         reviews = get_request(endpoint)
-
-        if not reviews:
-            logger.error(f"No reviews found for dealer: {dealer_id}")
-            return JsonResponse({"status": 200, "reviews": []})
-
         for review_detail in reviews:
-            try:
-                # Assuming analyze_review_sentiments returns a dictionary with a 'sentiment' key
-                response = analyze_review_sentiments(review_detail['review'])
-                review_detail['sentiment'] = response['sentiment']
-            except Exception as e:
-                logger.error(f"Error analyzing sentiment for review: {review_detail}. Error: {e}")
-                # Decide how to handle individual review sentiment analysis failure
-                review_detail['sentiment'] = "unknown"
-        
-        return JsonResponse({"status": 200, "reviews": reviews})
+            response = analyze_review_sentiments(review_detail['review'])
+            print(response)
+            review_detail['sentiment'] = response['sentiment']
+        return JsonResponse({"status":200,"reviews":reviews})
     else:
-        return JsonResponse({"status": 400, "message": "Bad Request"})
+        return JsonResponse({"status":400,"message":"Bad Request"})
 
 
 def add_review(request):
@@ -149,5 +139,7 @@ def get_cars(request):
     cars = []
     for car_model in car_models:
         cars.append({"CarModel": car_model.name, "CarMake": car_model.car_make.name})
+    
+    print (cars)
     return JsonResponse({"CarModels":cars})
 

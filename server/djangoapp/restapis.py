@@ -16,21 +16,20 @@ from requests.exceptions import RequestException
 
 def get_request(endpoint, **kwargs):
     params = ""
-    if kwargs:
-        params = '&'.join(f"{key}={value}" for key, value in kwargs.items())
+    if(kwargs):
+        for key,value in kwargs.items():
+            params=params+key+"="+value+"&"
 
-    request_url = backend_url + endpoint + "?" + params
+    request_url = backend_url+endpoint+"?"+params
 
-    print(f"GET from {request_url}")
+    print("GET from {} ".format(request_url))
     try:
+        # Call get method of requests library with URL and parameters
         response = requests.get(request_url)
-        response.raise_for_status()  # This will raise an HTTPError if the response was an error
         return response.json()
-    except RequestException as e:
-        # This will catch any error including HTTPError
-        print(f"Network exception occurred: {e}")
-        # Log the exception or handle it as needed
-        return None
+    except:
+        # If any error occurs
+        print("Network exception occurred")
 
 
 def analyze_review_sentiments(text):

@@ -32,8 +32,10 @@ const Dealer = () => {
     
     if(retobj.status === 200) {
       let dealerobjs = Array.from(retobj.dealer)
-      console.log(dealerobjs);
-      setDealer(dealerobjs[0])
+      //console.log("response",retobj);
+      //console.log("response 0",dealerobjs[0]);
+
+      setDealer(retobj.dealer)
     }
   }
 
@@ -46,7 +48,7 @@ const Dealer = () => {
     if(retobj.status === 200) {
       if(retobj.reviews.length > 0){
         setReviews(retobj.reviews)
-        console.log(retobj.reviews);
+        console.log("review response : ",retobj.reviews);
       } else {
         setUnreviewed(true);
       }
