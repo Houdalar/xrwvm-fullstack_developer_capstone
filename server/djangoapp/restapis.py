@@ -12,6 +12,7 @@ sentiment_analyzer_url = os.getenv(
     'sentiment_analyzer_url', default="http://localhost:5050/"
 )
 
+
 # Define the get_request function
 def get_request(endpoint, **kwargs):
     params = ""
@@ -28,6 +29,7 @@ def get_request(endpoint, **kwargs):
     except RequestException as e:
         print(f"Network exception occurred: {e}")
 
+
 # Define the analyze_review_sentiments function
 def analyze_review_sentiments(text):
     request_url = f"{sentiment_analyzer_url}/analyze/{text}"
@@ -36,6 +38,7 @@ def analyze_review_sentiments(text):
         return response.json()
     except RequestException as e:
         print(f"Unexpected error: {e}")
+
 
 # Define the post_review function
 def post_review(data_dict):
