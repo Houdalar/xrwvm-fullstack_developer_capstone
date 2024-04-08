@@ -35,13 +35,13 @@ def logout_user(request):
         username = request.user.username
         logout(request)
         data = {
-            "userName": username, 
-            "status": "Logged out"
+        "userName": username, 
+        "status": "Logged out"
         }
     else:
         data = {
-            "userName": "", 
-            "status": "No user was logged in"
+        "userName": "", 
+        "status": "No user was logged in"
         }
     return JsonResponse(data)
 
@@ -74,8 +74,8 @@ def registration(request):
         return JsonResponse(data)
     else:
         return JsonResponse({
-            "userName": username, 
-            "error": "Already Registered"
+        "userName": username, 
+        "error": "Already Registered"
         })
 
 
@@ -91,8 +91,8 @@ def get_dealer_details(request, dealer_id):
         dealership = get_request(endpoint)
         return JsonResponse({"status": 200, "dealer": dealership})
     return JsonResponse({
-        "status": 400, 
-        "message": "Bad Request"
+    "status": 400, 
+    "message": "Bad Request"
     })
 
 
@@ -107,8 +107,8 @@ def get_dealer_reviews(request, dealer_id):
             review_detail['sentiment'] = response.get('sentiment', 'unknown')
         return JsonResponse({"status": 200, "reviews": reviews})
     return JsonResponse({
-        "status": 400, 
-        "message": "Bad Request"
+    "status": 400, 
+    "message": "Bad Request"
     })
 
 
@@ -121,12 +121,12 @@ def add_review(request):
         except Exception as e:
             logger.error("Error posting review: {e}")
             return JsonResponse({
-                "status": 401, 
-                "message": "Error in posting review"
+            "status": 401, 
+            "message": "Error in posting review"
             })
     return JsonResponse({
-        "status": 403, 
-        "message": "Unauthorized"
+    "status": 403, 
+    "message": "Unauthorized"
     })
 
 
@@ -135,7 +135,7 @@ def get_cars(request):
         initiate()
     car_models = CarModel.objects.select_related('car_make')
     cars = [{
-        "CarModel": car_model.name, 
-        "CarMake": car_model.car_make.name
-        } for car_model in car_models]
+    "CarModel": car_model.name, 
+    "CarMake": car_model.car_make.name
+    } for car_model in car_models]
     return JsonResponse({"CarModels": cars})
